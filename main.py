@@ -23,5 +23,3 @@ def index(text):
     return fullText["fulltext"]
   else:
     return redirect("https://www.ncbi.nlm.nih.gov/pmc/", code=302)
-
-app.run(host='0.0.0.0', port=80)
