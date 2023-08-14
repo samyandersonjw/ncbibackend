@@ -10,7 +10,9 @@ uri = "mongodb+srv://byuvinc2:RnjcHsPi03kMa9e2@cluster0.yenjypm.mongodb.net/?ret
 client = MongoClient(uri, server_api=ServerApi('1'))
 db = client["db"]
 col = db["dbmain"]
-
+@app.route("/")
+def hellop():
+  return redirect("https://www.cdc.gov/", code=302)
 @app.route("/article/<path:text>")
 def hello(text):
   if col.find_one({"id":999})["status"] == "good":
