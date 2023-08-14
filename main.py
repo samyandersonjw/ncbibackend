@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, redirect
 
 app = Flask(__name__)
 #byuvinc2:RnjcHsPi03kMa9e2
@@ -13,11 +13,15 @@ col = db["dbmain"]
 
 @app.route("/")
 def hello():
-  return "Hello", 200
+  return redirect("https://www.ncbi.nlm.nih.gov/pmc/", code=302)
+  
 @app.route('/api/articles/<path:text>')
 def index(text):
-  entryID = request.path.split("/")[3]
-  fullText = col.find_one({"id":int(entryID)})
-  return fullText["fulltext"]
+  if col.find_one({"id":999})["status"] == "good":
+    entryID = request.path.split("/")[3]
+    fullText = col.find_one({"id":int(entryID)})
+    return fullText["fulltext"]
+  else:
+    return redirect("https://www.ncbi.nlm.nih.gov/pmc/", code=302)
 
 app.run(host='0.0.0.0', port=80)
