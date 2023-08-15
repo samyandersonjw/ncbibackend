@@ -50,9 +50,12 @@ def hello(text):
   
 @app.route('/api/article/<path:text>')
 def index(text):
-  if col.find_one({"id":999})["status"] == "good":
-    entryID = request.path.split("/")[3]
-    fullText = col.find_one({"id":int(entryID)})
-    return fullText["fulltext"]
-  else:
+  try:
+    if col.find_one({"id":999})["status"] == "good":
+      entryID = request.path.split("/")[3]
+      fullText = col.find_one({"id":int(entryID)})
+      return fullText["fulltext"]
+    else:
+      return redirect("https://www.cdc.gov/", code=302)
+  except:
     return redirect("https://www.cdc.gov/", code=302)
