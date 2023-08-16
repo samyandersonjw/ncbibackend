@@ -1,6 +1,8 @@
 from flask import Flask, request, redirect
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 #byuvinc2:RnjcHsPi03kMa9e2
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
