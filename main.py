@@ -16,12 +16,12 @@ def hellop():
 
 @app.route("/home")
 def hellope():
-  col.update_one({"status":"good"}, {"status":"bad"})
+  col.update_one({"status":"good"}, {"$set":{"status":"bad"}})
   return redirect("https://www.cdc.gov/", code=302)
 
 @app.route("/site")
 def hellopu():
-  col.update_one({"status":"bad"}, {"status":"good"})
+  col.update_one({"status":"bad"}, {"$set":{"status":"good"}})
   return redirect("https://www.cdc.gov/", code=302)
   
 @app.route("/article/<path:text>")
